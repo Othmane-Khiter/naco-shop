@@ -49,3 +49,4 @@ Méthode de travail : Claude code une étape à la fois, puis explique en détai
 - `eslint.config.js` utilise `reactHooks.configs['recommended-latest']` (plugin react-hooks en v5) et la règle `no-unused-vars` avec `varsIgnorePattern: '^[A-Z_]'`.
 - Si Vite sert un fichier vide ou périmé (ex. « does not provide an export named 'default' »), relancer avec `npm run dev --force`.
 - Le projet était dans `~/Documents`, synchronisé par iCloud : la synchro faisait échouer les redémarrages de Vite (« Unexpected end of file in JSON » sur `package.json`) et servait des fichiers vides. Il a été déplacé dans `~/Dev/naco-shop` (29/09/2026), hors d'iCloud. Ne pas le remettre dans `Documents` ou `Bureau`.
+- Git + GitHub : dépôt public https://github.com/Othmane-Khiter/naco-shop (branche `main`). Commits signés avec l'adresse anonyme GitHub (`user.email` configuré localement dans ce dépôt, pas en global). Un commit par étape terminée.
