@@ -33,7 +33,9 @@ Une maquette HTML interactive existe (faite dans le chat claude.ai, sous le nom 
 
 ## Avancement de la page catalogue
 
-Méthode de travail : Claude code une étape à la fois, puis explique en détail ce qu'il a fait et pourquoi (notions React, CSS, accessibilité), et demande avant de passer à l'étape suivante.
+Méthode de travail : Claude code une étape à la fois, puis explique en détail ce qu'il a fait et pourquoi (notions React, CSS, accessibilité), et demande avant de passer à l'étape suivante. Une fois l'étape validée : cocher la case ici, puis commit + push (un commit par étape).
+
+**Reprise (session du 29/09/2026 terminée)** : étapes 1 à 3 faites, commitées et en ligne. Projet déplacé dans `~/Dev/naco-shop` et publié sur GitHub. Prochaine session : l'utilisateur vérifie d'abord la recherche et le tri dans le navigateur (`npm run dev`), puis on attaque l'**étape 4 — bouton favori**. À faire plus tard : réécrire `README.md` (encore celui du modèle Vite) avant de montrer le projet.
 
 - [x] **Étape 1 — Mise en page** : `src/pages/CatalogPage.jsx` (la page) et `src/components/UniverseSidebar.jsx` (barre latérale avec compteurs). CSS Grid responsive : barre latérale au-dessus sous 900px, à gauche au-dessus ; grille de 2 / 3 / 4 colonnes (700px, 1200px). Chaque carte est dans un `<li>`.
 - [x] **Étape 2 — Filtre par univers** : `useState('all')` dans `CatalogPage` (état remonté dans le parent commun), transmis à `UniverseSidebar` via `selectedUniverse` / `onSelect`. `visibleProducts` est calculé avec `.filter()`, pas stocké dans le state. Compteur « N objet(s) » accordé.
