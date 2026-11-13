@@ -11,6 +11,18 @@ function CatalogPage() {
   // Ordre de tri choisi dans le menu déroulant
   const [sortOrder, setSortOrder] = useState('price-asc')
 
+  // Ids des produits mis en favori (ex. [2, 5])
+  const [favorites, setFavorites] = useState([])
+
+  // Ajoute l'id s'il n'y est pas, le retire sinon
+  function toggleFavorite(productId) {
+    setFavorites((current) =>
+      current.includes(productId)
+        ? current.filter((id) => id !== productId)
+        : [...current, productId]
+    )
+  }
+
   // 1. Filtre par univers
   const universeProducts =
     selectedUniverse === 'all'
@@ -81,6 +93,8 @@ function CatalogPage() {
                 <ProductCard
                   product={product}
                   universe={universes.find((u) => u.id === product.universe)}
+                  isFavorite={favorites.includes(product.id)}
+                  onToggleFavorite={() => toggleFavorite(product.id)}
                 />
               </li>
             ))}

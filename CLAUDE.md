@@ -40,8 +40,8 @@ Méthode de travail : Claude code une étape à la fois, puis explique en détai
 - [x] **Étape 1 — Mise en page** : `src/pages/CatalogPage.jsx` (la page) et `src/components/UniverseSidebar.jsx` (barre latérale avec compteurs). CSS Grid responsive : barre latérale au-dessus sous 900px, à gauche au-dessus ; grille de 2 / 3 / 4 colonnes (700px, 1200px). Chaque carte est dans un `<li>`.
 - [x] **Étape 2 — Filtre par univers** : `useState('all')` dans `CatalogPage` (état remonté dans le parent commun), transmis à `UniverseSidebar` via `selectedUniverse` / `onSelect`. `visibleProducts` est calculé avec `.filter()`, pas stocké dans le state. Compteur « N objet(s) » accordé.
 - [x] **Étape 3 — Recherche et tri** : deux `useState` de plus (`search`, `sortOrder`). Chaîne de calcul dans le rendu : filtre univers → filtre recherche (`.toLowerCase().includes()`) → tri sur une copie (`[...tableau].sort()`, `localeCompare` pour le nom). Libellés `<label htmlFor>` (celui de la recherche en `.visually-hidden`), barre `.toolbar` en flex (compteur à gauche, tri à droite), message si aucun résultat.
-- [ ] **Étape 4 — Bouton favori** (cœur) sur les cartes. ← **prochaine étape**
-- [ ] **Étape 5 — Mode sombre** avec bouton.
+- [x] **Étape 4 — Bouton favori** : `useState([])` d'ids dans `CatalogPage` + `toggleFavorite` (forme fonctionnelle de `setFavorites`), transmis à `ProductCard` via `isFavorite` / `onToggleFavorite`. Bouton `<button aria-pressed aria-label>` frère du `<Link>` (pas dedans), cœur en SVG inline, `.card` en `position: relative`. Favoris non persistés pour l'instant (perdus au rechargement).
+- [ ] **Étape 5 — Mode sombre** avec bouton. ← **prochaine étape**
 - [ ] **Étape 6 — En-tête** : trait turquoise sous le logo, libellés « Rechercher » et « Panier » à côté des icônes.
 - [ ] Ensuite : fiche produit (`/produit/:id`), puis panier (`/panier`, avec un contexte React dans `src/context/`).
 
