@@ -4,7 +4,8 @@ import ProductCard from '../components/ProductCard'
 import UniverseSidebar from '../components/UniverseSidebar'
 import { products, universes } from '../data/products'
 
-function CatalogPage() {
+// Les favoris viennent de App, pour être partagés avec la fiche produit
+function CatalogPage({ favorites, onToggleFavorite }) {
   // Univers choisi : 'all' pour « Tous », sinon l'id d'un univers ('pkm', 'mrv'…)
   const [selectedUniverse, setSelectedUniverse] = useState('all')
   // Texte tapé dans le champ de recherche
@@ -23,18 +24,6 @@ function CatalogPage() {
       searchRef.current.focus()
     }
   }, [location])
-
-  // Ids des produits mis en favori (ex. [2, 5])
-  const [favorites, setFavorites] = useState([])
-
-  // Ajoute l'id s'il n'y est pas, le retire sinon
-  function toggleFavorite(productId) {
-    setFavorites((current) =>
-      current.includes(productId)
-        ? current.filter((id) => id !== productId)
-        : [...current, productId]
-    )
-  }
 
   // 1. Filtre par univers
   const universeProducts =
@@ -108,7 +97,7 @@ function CatalogPage() {
                   product={product}
                   universe={universes.find((u) => u.id === product.universe)}
                   isFavorite={favorites.includes(product.id)}
-                  onToggleFavorite={() => toggleFavorite(product.id)}
+                  onToggleFavorite={() => onToggleFavorite(product.id)}
                 />
               </li>
             ))}

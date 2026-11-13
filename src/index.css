@@ -332,14 +332,18 @@ body {
   cursor: pointer;
 }
 
-.favorite-btn svg {
+/* Cœur (composant HeartIcon) : contour au repos… */
+.heart-icon {
+  flex-shrink: 0;
   fill: none;
   stroke: var(--color-ink);
   stroke-width: 2;
   stroke-linejoin: round;
 }
 
-.favorite-btn.is-active svg {
+/* …plein quand le bouton qui le contient est « enfoncé » (aria-pressed="true").
+   Le style suit directement l'état annoncé aux lecteurs d'écran : impossible qu'ils divergent */
+[aria-pressed="true"] .heart-icon {
   fill: var(--color-brand);
   stroke: var(--color-brand);
 }
@@ -389,4 +393,108 @@ body {
   font-family: var(--font-display);
   font-weight: 800;
   font-size: 20px;
+}
+/* Fiche produit */
+.product-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 24px;
+  color: var(--color-muted);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  color: var(--color-ink);
+  text-decoration: underline;
+}
+
+/* Une colonne sur mobile, vignette à gauche et infos à droite à partir de 800px */
+.product-layout {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 800px) {
+  .product-layout {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+/* Reprend .thumb (carré teinté) en plus grand */
+.product-thumb {
+  font-size: clamp(96px, 20vw, 160px);
+  border-radius: 14px;
+}
+
+.product-page .universe {
+  margin: 0;
+}
+
+.product-name {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 40px);
+  line-height: 1.1;
+}
+
+.product-price {
+  margin: 12px 0 0;
+  font-size: 28px;
+}
+
+.product-stock {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.product-description {
+  margin: 20px 0 0;
+  max-width: 60ch;
+}
+
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 12px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--color-brand);
+  color: white;
+  border: 1px solid transparent;
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: 1px solid var(--color-line);
+}
+
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 2px;
 }
