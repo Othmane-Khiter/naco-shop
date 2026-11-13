@@ -4,6 +4,8 @@ export const universes = [
   { id: 'mrv', name: 'Marvel', color: '#4DA3FF' },
   { id: 'zld', name: 'Zelda', color: '#4ADE80' },
   { id: 'kh', name: 'Kingdom Hearts', color: '#FF7AC8' },
+  { id: 'mario', name: 'Super Mario', color: '#FFC83D' },
+  { id: 'sw', name: 'Star Wars', color: '#A78BFA' },
 ]
 
 export const products = [
@@ -19,4 +21,12 @@ export const products = [
   { id: 10, name: 'Arc du Héros', universe: 'zld', price: 64.99, stock: 9, emoji: '🏹', description: "Arc décoratif en bois teinté, avec sa corde tressée et son carquois assorti." },
   { id: 11, name: 'Keyblade', universe: 'kh', price: 94.99, stock: 6, emoji: '🗝️', description: "La clé géante qui ouvre les cœurs et bien des portes. Poignée dentelée et chaîne porte-bonheur." },
   { id: 12, name: 'Pendentif couronne', universe: 'kh', price: 29.99, stock: 15, emoji: '👑', description: "Pendentif argenté en forme de couronne, à porter au cou ou à accrocher à un sac." },
+  { id: 13, name: 'Casquette de Mario', universe: 'mario', price: 24.99, stock: 20, emoji: '🧢', description: "La casquette rouge brodée du célèbre « M », taille ajustable. Les sauts sur les tortues ne sont pas inclus." },
+  { id: 14, name: 'Casquette de Luigi', universe: 'mario', price: 24.99, stock: 14, emoji: '🧢', description: "La version verte, brodée du « L », pour ceux qui préfèrent le frère le plus courageux, même quand il tremble." },
+  { id: 15, name: 'Ectoblast 3000', universe: 'mario', price: 129.99, stock: 3, emoji: '👻', description: "Réplique de l’aspirateur à fantômes de Luigi, avec son sac à dos et sa buse orientable. Les Boos ne sont pas fournis." },
+  { id: 16, name: 'Ombrelle de Peach', universe: 'mario', price: 44.99, stock: 6, emoji: '☂️', description: "Ombrelle rose à volants, digne du château de Peach. Elle protège du soleil, mais ne fait pas planer." },
+  { id: 17, name: 'Œuf de Yoshi', universe: 'mario', price: 19.99, stock: 25, emoji: '🥚', description: "Œuf à pois verts en résine, creux, à ouvrir pour y ranger un petit trésor. Aucun Yoshi n’en sortira, promis." },
+  { id: 18, name: 'Sabre laser', universe: 'sw', price: 159.99, stock: 5, emoji: '⚔️', description: "Poignée en métal usiné et lame lumineuse amovible, avec le son d’allumage. Que la Force soit avec votre étagère." },
+  { id: 19, name: 'Blaster de stormtrooper', universe: 'sw', price: 89.99, stock: 9, emoji: '🔫', description: "Réplique du fusil blanc et noir de l’Empire, avec effets sonores. Garanti plus précis que son propriétaire." },
+  { id: 20, name: 'Jetpack de Boba Fett', universe: 'sw', price: 199.99, stock: 2, emoji: '🚀', description: "Réacteur dorsal du chasseur de primes le plus célèbre de la galaxie, avec sangles réglables. Ne décolle pas (et c’est mieux ainsi)." },
 ]
