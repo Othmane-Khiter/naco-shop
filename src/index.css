@@ -7,8 +7,21 @@
   --color-accent: #22D3C5;
   --color-tint: #EFEBFF;
   --color-line: #D9D5EE;
+  --color-on-accent: #16162A; /* texte posé sur un fond turquoise : reste foncé dans les deux thèmes */
   --font-display: "Bricolage Grotesque", system-ui, sans-serif;
   --font-body: "DM Sans", system-ui, sans-serif;
+}
+
+/* Mode sombre : on ne redéfinit que les variables qui changent.
+   Le sélecteur [data-theme="dark"] s'applique quand <html data-theme="dark"> */
+:root[data-theme="dark"] {
+  --color-bg: #0F1226;
+  --color-surface: #1A1B3A;
+  --color-ink: #F2F1FF;
+  --color-muted: #A9A8C8;
+  --color-tint: #26285A;
+  --color-line: #34366B;
+  color-scheme: dark; /* barres de défilement et menus natifs en sombre */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -300,7 +313,7 @@ body {
   left: 6px;
   bottom: 6px;
   background: var(--color-accent);
-  color: var(--color-ink);
+  color: var(--color-on-accent);
   font-size: 12px;
   font-weight: 700;
   padding: 2px 8px;

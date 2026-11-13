@@ -1,11 +1,21 @@
 import { Link } from 'react-router-dom'
 
-function Header({ cartCount = 0 }) {
+function Header({ cartCount = 0, theme, onToggleTheme }) {
   return (
     <header className="header">
       <Link to="/" className="logo">NACO Shop</Link>
 
       <div className="header-actions">
+        <button
+          type="button"
+          className="icon-button"
+          onClick={onToggleTheme}
+          aria-pressed={theme === 'dark'}
+          aria-label="Mode sombre"
+        >
+          {theme === 'dark' ? '☀️' : '🌙'}
+        </button>
+
         <button type="button" aria-label="Rechercher" className="icon-button">
           🔍
         </button>
