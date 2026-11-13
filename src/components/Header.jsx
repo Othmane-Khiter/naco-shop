@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
 
-function Header({ cartCount = 0, theme, onToggleTheme }) {
+function Header({ theme, onToggleTheme }) {
+  // Le nombre d'articles vient directement du contexte, plus besoin de prop
+  const { cartCount } = useCart()
+
   return (
     <header className="header">
       <Link to="/" className="logo">NACO Shop</Link>

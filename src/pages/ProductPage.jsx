@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import HeartIcon from '../components/HeartIcon'
+import { useCart } from '../context/CartContext'
 import { products, universes } from '../data/products'
 
 function ProductPage({ favorites, onToggleFavorite }) {
@@ -7,6 +8,8 @@ function ProductPage({ favorites, onToggleFavorite }) {
   // alors que les ids de products.js sont des nombres (3) : d'où le Number()
   const { id } = useParams()
   const product = products.find((p) => p.id === Number(id))
+  // Les hooks s'appellent toujours avant tout `return`, jamais après un if
+  const { addToCart, getQuantity } = useCart()
 
   // Adresse tapée à la main avec un id qui n'existe pas (ex. /produit/99)
   if (!product) {
@@ -24,6 +27,8 @@ function ProductPage({ favorites, onToggleFavorite }) {
 
   const universe = universes.find((u) => u.id === product.universe)
   const isFavorite = favorites.includes(product.id)
+  const inCart = getQuantity(product.id)
+  const isMaxed = inCart >= product.stock
 
   return (
     <main className="product-page">
@@ -56,8 +61,7 @@ function ProductPage({ favorites, onToggleFavorite }) {
           <p className="product-description">{product.description}</p>
 
           <div className="product-actions">
-            {/* Pas encore d'action : il sera branché à l'étape du panier */}
-            <button type="button" className="btn-primary">
+            <button type="button" className="btn-primary" onClick={() => addToCart(product.id)}>
               Ajouter au panier
             </button>
 
@@ -71,6 +75,13 @@ function ProductPage({ favorites, onToggleFavorite }) {
               Favori
             </button>
           </div>
+
+          {/* role="status" : les lecteurs d'écran annoncent chaque changement de ce texte.
+              Le <p> est toujours présent (même vide), seul son contenu change */}
+          <p className="cart-status" role="status">
+            {inCart > 0 && `${inCart} dans votre panier`}
+            {isMaxed && ' · stock maximum atteint'}
+          </p>
         </div>
       </div>
     </main>

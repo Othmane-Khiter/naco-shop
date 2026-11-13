@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
+import CartProvider from './context/CartProvider'
 import CatalogPage from './pages/CatalogPage'
 import ProductPage from './pages/ProductPage'
 
@@ -39,20 +40,23 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
-      <Header cartCount={0} theme={theme} onToggleTheme={toggleTheme} />
+    // Tout ce qui est à l'intérieur de <CartProvider> peut lire le panier avec useCart()
+    <CartProvider>
+      <BrowserRouter>
+        <Header theme={theme} onToggleTheme={toggleTheme} />
 
-      <Routes>
-        <Route
-          path="/"
-          element={<CatalogPage favorites={favorites} onToggleFavorite={toggleFavorite} />}
-        />
-        <Route
-          path="/produit/:id"
-          element={<ProductPage favorites={favorites} onToggleFavorite={toggleFavorite} />}
-        />
-      </Routes>
-    </BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<CatalogPage favorites={favorites} onToggleFavorite={toggleFavorite} />}
+          />
+          <Route
+            path="/produit/:id"
+            element={<ProductPage favorites={favorites} onToggleFavorite={toggleFavorite} />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   )
 }
 

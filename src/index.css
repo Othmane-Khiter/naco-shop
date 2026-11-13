@@ -498,3 +498,11 @@ body {
   outline: 3px solid var(--color-brand);
   outline-offset: 2px;
 }
+
+/* Message sous les boutons de la fiche : « 2 dans votre panier » */
+.cart-status {
+  min-height: 1.45em; /* garde la place même vide : la page ne saute pas au premier ajout */
+  margin: 12px 0 0;
+  font-size: 14px;
+  color: var(--color-muted);
+}
