@@ -34,12 +34,27 @@ function CartProvider({ children }) {
     })
   }
 
+  // Change la quantité d'une ligne, en la gardant entre 1 et le stock disponible
+  function setQuantity(productId, quantity) {
+    const product = products.find((p) => p.id === productId)
+    const safeQuantity = Math.min(Math.max(quantity, 1), product.stock)
+
+    setItems((current) =>
+      current.map((i) => (i.productId === productId ? { ...i, quantity: safeQuantity } : i))
+    )
+  }
+
+  // Supprime une ligne du panier
+  function removeFromCart(productId) {
+    setItems((current) => current.filter((i) => i.productId !== productId))
+  }
+
   // Nombre total d'articles (2 Pokéballs + 1 Keyblade = 3) : calculé, pas stocké
   const cartCount = items.reduce((total, i) => total + i.quantity, 0)
 
   // React 19 : on peut écrire <CartContext value={…}> au lieu de <CartContext.Provider value={…}>
   return (
-    <CartContext value={{ items, cartCount, getQuantity, addToCart }}>
+    <CartContext value={{ items, cartCount, getQuantity, addToCart, setQuantity, removeFromCart }}>
       {children}
     </CartContext>
   )

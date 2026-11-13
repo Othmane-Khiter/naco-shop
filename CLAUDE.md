@@ -35,7 +35,7 @@ Une maquette HTML interactive existe (faite dans le chat claude.ai, sous le nom 
 
 Méthode de travail : Claude code une étape à la fois, puis explique en détail ce qu'il a fait et pourquoi (notions React, CSS, accessibilité), et demande avant de passer à l'étape suivante. Une fois l'étape validée : cocher la case ici, puis commit + push (un commit par étape).
 
-**Reprise (session du 29/09/2026 terminée)** : étapes 1 à 3 faites, commitées et en ligne. Projet déplacé dans `~/Dev/naco-shop` et publié sur GitHub. Prochaine session : l'utilisateur vérifie d'abord la recherche et le tri dans le navigateur (`npm run dev`), puis on attaque l'**étape 4 — bouton favori**. À faire plus tard : réécrire `README.md` (encore celui du modèle Vite) avant de montrer le projet.
+**Reprise (13/11/2026)** : parcours complet catalogue → fiche → panier fait, commité et en ligne. Pistes pour la suite (à choisir avec l'utilisateur) : vraies images des produits (voir plus bas), favoris gardés au rechargement (`localStorage`), réécrire `README.md` (encore celui du modèle Vite) avant de montrer le projet. Puis le backend Medusa.
 
 - [x] **Étape 1 — Mise en page** : `src/pages/CatalogPage.jsx` (la page) et `src/components/UniverseSidebar.jsx` (barre latérale avec compteurs). CSS Grid responsive : barre latérale au-dessus sous 900px, à gauche au-dessus ; grille de 2 / 3 / 4 colonnes (700px, 1200px). Chaque carte est dans un `<li>`.
 - [x] **Étape 2 — Filtre par univers** : `useState('all')` dans `CatalogPage` (état remonté dans le parent commun), transmis à `UniverseSidebar` via `selectedUniverse` / `onSelect`. `visibleProducts` est calculé avec `.filter()`, pas stocké dans le state. Compteur « N objet(s) » accordé.
@@ -45,12 +45,25 @@ Méthode de travail : Claude code une étape à la fois, puis explique en détai
 - [x] **Étape 6 — En-tête** : « Rechercher » est un `<Link to="/" state={{ focusSearch: true }}>` ; `CatalogPage` lit `useLocation()` et fait `searchRef.current.focus()` dans un `useEffect` (`useRef` sur l'input). Logo souligné en turquoise via `text-decoration-*`. Liens `.header-link` icône + libellé visible (plus d'`aria-label`), emojis en `aria-hidden`, badge positionné sur `.header-icon`, avec texte caché « article(s) ». Libellés masqués visuellement (pas `display: none`) sous 600px.
 - [x] **Fiche produit** (`/produit/:id`) : `src/pages/ProductPage.jsx`, `useParams()` + `Number(id)`, message « Objet introuvable » si l'id n'existe pas, `<title>` React 19 dans le composant. Favoris remontés dans `App` (passés en props au catalogue et à la fiche). Cœur extrait dans `src/components/HeartIcon.jsx`, rempli via `[aria-pressed="true"] .heart-icon`. Boutons `.btn-primary` / `.btn-secondary`. « Ajouter au panier » est visuel seul (à brancher). Limites : filtre/recherche/tri du catalogue remis à zéro au retour ; favoris non persistés.
 - [x] **Panier, partie 1 — contexte** : `src/context/CartContext.js` (`createContext` + hook `useCart()` qui lève une erreur hors Provider) et `src/context/CartProvider.jsx` (composant, séparé pour la règle `react-refresh/only-export-components`). State `items` = `[{ productId, quantity }]` (ids seulement), `addToCart` plafonné au stock, `cartCount` calculé par `.reduce()`. Syntaxe React 19 `<CartContext value>`. `<CartProvider>` entoure tout dans `App`. `Header` lit `cartCount` via `useCart()`. Fiche : bouton branché, `<p role="status">` « N dans votre panier · stock maximum atteint » (bouton jamais `disabled`, pour ne pas perdre le focus). Panier non persisté.
-- [ ] **Panier, partie 2 — page `/panier`** : liste, quantités + / −, suppression, total, message si vide. ← **prochaine étape**
+- [x] **Panier, partie 2 — page `/panier`** : `src/pages/CartPage.jsx`. Contexte enrichi de `setQuantity` (bornée entre 1 et le stock dans le Provider) et `removeFromCart`. Lignes reconstruites en joignant le produit (`{ ...item, product }`), total par `.reduce()`. Boutons + / − dans un `role="group"` nommé, quantité en `aria-live`, limites en `aria-disabled` (pas `disabled`). Après « Retirer », focus replacé sur le `<h1 tabIndex={-1}>` via `useRef`. Message + lien si panier vide. « Passer commande » visuel seul (boutique fictive).
+
+## Vraies images des produits (à faire)
+
+Décidé avec l'utilisateur : images libres de droits (photos perso, générées par IA ou banques libres ; pas de photos officielles des marques), carrées (~800×800), en WebP, idéalement sur fond transparent. En attendant Medusa : fichiers dans `public/images/products/`, champ `image: '/images/products/xxx.webp'` dans `products.js`, `<img alt="" width height loading="lazy">` avec l'emoji en secours si pas d'image, `object-fit: contain`.
+
+## Après le frontend : backend Medusa.js
+
+L'utilisateur a terminé le tutoriel Medusa (12/11/2026) et veut, une fois le frontend fini, réfléchir à un backend Medusa.js. Pistes à discuter à ce moment-là :
+
+- `src/data/products.js` → Store API Medusa (`fetch` + états de chargement / erreur) ; univers → catégories ou collections ; emoji → images.
+- Panier : le panier Medusa vit côté serveur (on ne garde que son id dans le navigateur). Le `CartProvider` (ids + quantités) devra appeler l'API au lieu de son `useState`.
+- Stock → module d'inventaire Medusa. Favoris : pas de liste d'envies native → module personnalisé (bon exercice).
+- Images : envoyées dans l'admin Medusa, rangées par le module de fichiers (provider local en dev ; S3 / Cloudflare R2 en production, car le disque des hébergeurs type Render ou Railway est effacé à chaque déploiement). L'API renvoie `thumbnail` et `images[].url` : `product.image` deviendra `product.thumbnail`, et `public/images/` sera supprimé.
 
 ## Points techniques connus
 
 - `npm run lint` fonctionne, mais met plusieurs minutes sur cette machine.
 - `eslint.config.js` utilise `reactHooks.configs['recommended-latest']` (plugin react-hooks en v5) et la règle `no-unused-vars` avec `varsIgnorePattern: '^[A-Z_]'`.
 - Si Vite sert un fichier vide ou périmé (ex. « does not provide an export named 'default' »), relancer avec `npm run dev --force`.
-- Le projet était dans `~/Documents`, synchronisé par iCloud : la synchro faisait échouer les redémarrages de Vite (« Unexpected end of file in JSON » sur `package.json`) et servait des fichiers vides. Il a été déplacé dans `~/Dev/naco-shop` (29/09/2026), hors d'iCloud. Ne pas le remettre dans `Documents` ou `Bureau`.
+- Emplacement : `~/Documents/Dev-Web/naco-shop/naco-shop-frontend` (l'utilisateur l'a remis là volontairement, pour des raisons pratiques ; le dossier parent `naco-shop/` accueillera sans doute le backend). Attention : `~/Documents` est synchronisé par iCloud (« Bureau et Documents » activé, vérifié le 13/11/2026). Le 29/09/2026, cette synchro avait fait échouer les redémarrages de Vite (« Unexpected end of file in JSON » sur `package.json`) et servi des fichiers vides. Si ça revient : `npm run dev --force`, ou déplacer le projet hors de `Documents` / `Bureau`.
 - Git + GitHub : dépôt public https://github.com/Othmane-Khiter/naco-shop (branche `main`). Commits signés avec l'adresse anonyme GitHub (`user.email` configuré localement dans ce dépôt, pas en global). Un commit par étape terminée.

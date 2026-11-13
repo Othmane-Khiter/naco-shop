@@ -4,6 +4,7 @@ import Header from './components/Header'
 import CartProvider from './context/CartProvider'
 import CatalogPage from './pages/CatalogPage'
 import ProductPage from './pages/ProductPage'
+import CartPage from './pages/CartPage'
 
 // Thème de départ : le choix déjà enregistré, sinon la préférence du système
 function getInitialTheme() {
@@ -54,6 +55,7 @@ function App() {
             path="/produit/:id"
             element={<ProductPage favorites={favorites} onToggleFavorite={toggleFavorite} />}
           />
+          <Route path="/panier" element={<CartPage />} />
         </Routes>
       </BrowserRouter>
     </CartProvider>
