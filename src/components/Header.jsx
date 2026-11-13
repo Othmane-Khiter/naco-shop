@@ -16,13 +16,24 @@ function Header({ cartCount = 0, theme, onToggleTheme }) {
           {theme === 'dark' ? '☀️' : '🌙'}
         </button>
 
-        <button type="button" aria-label="Rechercher" className="icon-button">
-          🔍
-        </button>
+        {/* Un lien (et non un bouton) car il peut changer de page : il ramène au catalogue
+            et lui transmet, via `state`, la demande de placer le curseur dans la recherche */}
+        <Link to="/" state={{ focusSearch: true }} className="header-link">
+          <span className="header-icon" aria-hidden="true">🔍</span>
+          <span className="header-label">Rechercher</span>
+        </Link>
 
-        <Link to="/panier" aria-label="Ouvrir le panier" className="icon-button">
-          🛒
-          {cartCount > 0 && <span className="badge">{cartCount}</span>}
+        <Link to="/panier" className="header-link">
+          <span className="header-icon">
+            <span aria-hidden="true">🛒</span>
+            {cartCount > 0 && (
+              <span className="badge">
+                {cartCount}
+                <span className="visually-hidden"> {cartCount > 1 ? 'articles' : 'article'}</span>
+              </span>
+            )}
+          </span>
+          <span className="header-label">Panier</span>
         </Link>
       </div>
     </header>

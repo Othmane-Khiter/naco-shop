@@ -42,8 +42,9 @@ Méthode de travail : Claude code une étape à la fois, puis explique en détai
 - [x] **Étape 3 — Recherche et tri** : deux `useState` de plus (`search`, `sortOrder`). Chaîne de calcul dans le rendu : filtre univers → filtre recherche (`.toLowerCase().includes()`) → tri sur une copie (`[...tableau].sort()`, `localeCompare` pour le nom). Libellés `<label htmlFor>` (celui de la recherche en `.visually-hidden`), barre `.toolbar` en flex (compteur à gauche, tri à droite), message si aucun résultat.
 - [x] **Étape 4 — Bouton favori** : `useState([])` d'ids dans `CatalogPage` + `toggleFavorite` (forme fonctionnelle de `setFavorites`), transmis à `ProductCard` via `isFavorite` / `onToggleFavorite`. Bouton `<button aria-pressed aria-label>` frère du `<Link>` (pas dedans), cœur en SVG inline, `.card` en `position: relative`. Favoris non persistés pour l'instant (perdus au rechargement).
 - [x] **Étape 5 — Mode sombre** : `theme` dans le `useState` de `App` (valeur initiale via `getInitialTheme` : `localStorage` puis `prefers-color-scheme`), `useEffect` qui écrit `<html data-theme>` et mémorise le choix. CSS : bloc `:root[data-theme="dark"]` qui redéfinit seulement les variables ; `--color-on-accent` pour le texte sur turquoise. Bouton 🌙/☀️ dans `Header` (`aria-pressed`, libellé fixe). Léger flash clair possible au chargement (non traité).
-- [ ] **Étape 6 — En-tête** : trait turquoise sous le logo, libellés « Rechercher » et « Panier » à côté des icônes. ← **prochaine étape**
-- [ ] Ensuite : fiche produit (`/produit/:id`), puis panier (`/panier`, avec un contexte React dans `src/context/`).
+- [x] **Étape 6 — En-tête** : « Rechercher » est un `<Link to="/" state={{ focusSearch: true }}>` ; `CatalogPage` lit `useLocation()` et fait `searchRef.current.focus()` dans un `useEffect` (`useRef` sur l'input). Logo souligné en turquoise via `text-decoration-*`. Liens `.header-link` icône + libellé visible (plus d'`aria-label`), emojis en `aria-hidden`, badge positionné sur `.header-icon`, avec texte caché « article(s) ». Libellés masqués visuellement (pas `display: none`) sous 600px.
+- [ ] Ensuite : fiche produit (`/produit/:id`). ← **prochaine étape**
+- [ ] Puis panier (`/panier`, avec un contexte React dans `src/context/`).
 
 ## Points techniques connus
 

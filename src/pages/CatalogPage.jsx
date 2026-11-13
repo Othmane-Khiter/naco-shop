@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import ProductCard from '../components/ProductCard'
 import UniverseSidebar from '../components/UniverseSidebar'
 import { products, universes } from '../data/products'
@@ -10,6 +11,18 @@ function CatalogPage() {
   const [search, setSearch] = useState('')
   // Ordre de tri choisi dans le menu déroulant
   const [sortOrder, setSortOrder] = useState('price-asc')
+
+  // Référence vers le vrai champ <input> du DOM, pour pouvoir appeler .focus() dessus
+  const searchRef = useRef(null)
+  // L'adresse actuelle, avec le `state` éventuellement envoyé par le lien « Rechercher »
+  const location = useLocation()
+
+  // À chaque navigation : si on vient du lien « Rechercher », on place le curseur dans le champ
+  useEffect(() => {
+    if (location.state?.focusSearch) {
+      searchRef.current.focus()
+    }
+  }, [location])
 
   // Ids des produits mis en favori (ex. [2, 5])
   const [favorites, setFavorites] = useState([])
@@ -57,6 +70,7 @@ function CatalogPage() {
         </label>
         <input
           id="search"
+          ref={searchRef}
           className="search-input"
           type="search"
           placeholder="Rechercher un objet"
