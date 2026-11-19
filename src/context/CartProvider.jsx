@@ -1,12 +1,41 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CartContext } from './CartContext'
 import { products } from '../data/products'
+
+// Panier de départ : celui enregistré lors de la dernière visite, sinon un panier vide.
+// Même méthode que pour les favoris (JSON + try / catch), mais avec plus de vérifications :
+// une ligne qui pointe vers un produit inexistant ferait planter la page /panier.
+function getInitialItems() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('cart'))
+    if (!Array.isArray(saved)) return []
+
+    const validItems = []
+    for (const item of saved) {
+      const product = products.find((p) => p.id === item?.productId)
+      // Produit inconnu (supprimé du catalogue, donnée abîmée…) : on ignore la ligne
+      if (!product || !Number.isInteger(item.quantity)) continue
+      // Quantité ramenée entre 1 et le stock (le stock a pu baisser depuis la dernière visite)
+      const quantity = Math.min(Math.max(item.quantity, 1), product.stock)
+      validItems.push({ productId: product.id, quantity })
+    }
+    return validItems
+  } catch {
+    // Texte illisible : on repart d'un panier vide au lieu de planter
+    return []
+  }
+}
 
 // Composant qui détient l'état du panier et le met à disposition de tous ses enfants
 function CartProvider({ children }) {
   // Lignes du panier : [{ productId: 3, quantity: 2 }, …]
   // On ne stocke que l'id : le nom, le prix… restent lus dans products.js (une seule source)
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState(getInitialItems)
+
+  // À chaque changement du panier, on l'enregistre (converti en texte) pour la prochaine visite
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(items))
+  }, [items])
 
   // Quantité d'un produit dans le panier (0 s'il n'y est pas)
   function getQuantity(productId) {
